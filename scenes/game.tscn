@@ -1,0 +1,63 @@
+[gd_scene load_steps=7 format=3 uid="uid://bysfgoltap2xq"]
+
+[ext_resource type="Script" uid="uid://cntbcgc4evcdg" path="res://code/game.gd" id="1_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://lo6x6507qmk3" path="res://player/player.tscn" id="1_uwrxv"]
+[ext_resource type="Texture2D" uid="uid://cptxwpwhhlmpy" path="res://environment/brick.png" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://t8yteja0r24q" path="res://addons/wfc/nodes/generator_2d.gd" id="5_iywne"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
+texture = ExtResource("2_yqjtg")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+0:1/0 = 0
+1:0/0 = 0
+1:1/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_lbhrr"]
+tile_size = Vector2i(8, 8)
+sources/0 = SubResource("TileSetAtlasSource_lnu2h")
+
+[node name="Game" type="Node2D"]
+position = Vector2(1, 0)
+script = ExtResource("1_lnu2h")
+
+[node name="Player" parent="." instance=ExtResource("1_uwrxv")]
+position = Vector2(20, 20)
+script = null
+
+[node name="TileMap" type="TileMap" parent="."]
+modulate = Color(0.639216, 0.635294, 0.603922, 1)
+texture_filter = 1
+scale = Vector2(5, 5)
+tile_set = SubResource("TileSet_lbhrr")
+format = 2
+
+[node name="Sample" type="TileMap" parent="."]
+modulate = Color(0.639216, 0.635294, 0.603922, 1)
+texture_filter = 1
+position = Vector2(3, 1)
+scale = Vector2(5, 5)
+tile_set = SubResource("TileSet_lbhrr")
+format = 2
+layer_0/tile_data = PackedInt32Array(-65539, 0, 0, -3, 0, 0, 65533, 0, 0, 131069, 0, 0, 196605, 0, 0, 262141, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 65536, 0, 196613, 0, 0, 196614, 0, 0, -196602, 0, 0, -131066, 0, 0, -65530, 0, 0, 6, 0, 0, 65542, 0, 0, 131078, 0, 0, -131075, 0, 0, -131074, 0, 0, -131073, 0, 0, -196608, 0, 1, -196607, 0, 0, -196606, 0, 0, -196605, 0, 0, -196604, 0, 0, -196603, 0, 0, -65532, 65536, 1, 65537, 0, 2)
+
+[node name="NegativeSample" type="TileMap" parent="."]
+visible = false
+modulate = Color(0.639216, 0.635294, 0.603922, 1)
+texture_filter = 1
+scale = Vector2(5, 5)
+tile_set = SubResource("TileSet_lbhrr")
+format = 2
+
+[node name="WFC2DGenerator" type="Node" parent="."]
+script = ExtResource("5_iywne")
+target = NodePath("../TileMap")
+rect = Rect2i(0, 0, 50, 50)
+positive_sample = NodePath("../Sample")
+negative_sample = NodePath("../NegativeSample")
+use_multithreading = false
+start_on_ready = true
+render_intermediate_results = true
+metadata/_custom_type_script = "uid://t8yteja0r24q"
